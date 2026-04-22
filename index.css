@@ -1,0 +1,65 @@
+/* 
+body{
+    background-color: rgb(197, 197, 197);
+}
+
+#Contact{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: rgb(255, 255, 255);
+}
+#form{
+    font-style: italic;
+    font-size: 20px;
+}
+
+.name {
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+}
+
+.name1{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+#email{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+.tel{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+
+.submit {
+    color: rgb(0, 0, 0);    
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 25px;
+    outline: 2px solid rgb(0, 0, 0);
+    font-style: italic;
+} */

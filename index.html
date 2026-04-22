@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Pora JS</title>
+    <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <h1>You're Welcome to JS Pora Academy</h1>
+    <!-- <h1>You're Welcome to JS Pora Academy</h1>
     <p>Academy of Excellence</p>
     <a href="https://instagram.com">Instagram home page</a>
     
@@ -23,22 +25,101 @@
     <section>
         <h2>My Image</h2>
         <img src="" alt="">
-    </section>
+    </section> -->
+
+
+<style>
+        body {
+            background-color: rgb(216, 215, 215);            
+}
+
+#Contact{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: rgb(255, 255, 255);
+    padding-left: 20px;
+    background-color: rgb(153, 183, 240);
+}
+#form{
+    font-style: italic;
+    font-size: 20px;
+    padding-left: 20px;
+}
+
+.name {
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+}
+
+.name1{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+#email{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+.tel{
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: 2px solid black;
+}
+
+
+.submit {
+    color: rgb(0, 0, 0);    
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 25px;
+    outline: 2px solid rgb(0, 0, 0);
+    font-style: italic;
+}
+
+.lady1 {
+    width: 500px;
+    height: 500px;  
+    padding-bottom: 50px;  
+}
+
+    </style>
 
     <section>
-        <h2>Contact Me</h2>
+        <h2 id="Contact">Contact Me</h2>
+        <img src="./pics/lady 1.jpg" class="lady1" alt="My pics">
 
-        <form>
-            <label for="name">Name</label><br>
-            <input type="Chinelo Onwuegbuna"><br><br>
+        <form id="form">
+            <label for="name" class="name">Name</label><br>
+            <input type="text" class="name1"><br><br>
 
             <label for="email">Email</label><br>
-            <input type="nellygath@gmail.com"><br><br>
+            <input type="email" id="email"><br><br>
 
             <label for="phone number">Phone number</label><br>
-            <input type="08012354788"><br><br>
+            <input type="tel" class="tel"><br><br>
 
-            <button input="submit">submit</button>
+            <button input="submit" class="submit">submit</button>
         </form>
     </section>
 
