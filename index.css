@@ -38,12 +38,11 @@ body{
 .p{
     background-color: rgb(253, 253, 253);
     font-size: 20px;
-    letter-spacing: 2px;
     text-indent: 20px;  
     line-height: 1.5;
-    text-align: center;
     border-color: rgb(88, 126, 196);
     color: rgb(31, 29, 29);
+    text-align: justify;
 }
 
 #Contact{
