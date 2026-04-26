@@ -1,19 +1,84 @@
-/* 
+
 body{
     background-color: rgb(197, 197, 197);
 }
 
-#Contact{
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px;
+.welcome{
+    text-align: center;
+    color: rgb(31, 29, 29);
+    padding: 20px;
+    margin: 20px;
+    font-size: 40px;
     background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
 }
+
+.para{
+    font-size: 25px;
+    font-weight: 500;
+}
+
+#aboutme{
+    font-size: 40px;
+    text-align: center;
+    color: rgb(31, 29, 29);
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+    padding: 20px;
+    margin: 20px;
+}
+
+
+.p{
+    background-color: rgb(253, 253, 253);
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-indent: 20px;  
+    line-height: 1.5;
+    text-align: center;
+    border-color: rgb(88, 126, 196);
+    color: rgb(31, 29, 29);
+}
+
+#Contact{
+    color: rgb(31, 29, 29);
+    font-weight: bold;
+    font-size: 40px;
+    background-color: rgb(255, 255, 255);
+    text-align: center;  
+    border-style: solid;  
+    border-width: 2px;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    border-color: rgb(88, 126, 196);
+}
+
+.nellypics2{
+    width: 400px;
+    height:400px;
+    border-radius: 20px;   
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+}   
+
+
 #form{
     font-style: italic;
     font-size: 20px;
+    justify-self: center;
 }
 
 .name {
@@ -28,7 +93,10 @@ body{
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    outline: 2px solid black;
+    /* outline: 2px solid rgb(134, 164, 219); */
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
 }
 
 #email{
@@ -38,7 +106,10 @@ body{
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    outline: 2px solid black;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+    
 }
 
 .tel{
@@ -48,18 +119,22 @@ body{
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    outline: 2px solid black;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
 }
 
 
 .submit {
-    color: rgb(0, 0, 0);    
+    color: rgb(31, 29, 29);   
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 25px;
-    outline: 2px solid rgb(0, 0, 0);
     font-style: italic;
-} */
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+}
