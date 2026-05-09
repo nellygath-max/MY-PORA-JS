@@ -43,6 +43,8 @@ body{
     border-color: rgb(88, 126, 196);
     color: rgb(31, 29, 29);
     text-align: justify;
+    padding: 20px;
+    margin: 20px;
 }
 
 #Contact{
@@ -136,4 +138,64 @@ body{
     border-style: solid;
     border-width: 2px;
     border-color: rgb(88, 126, 196);
+}
+
+.flex{
+    background-color: rgb(116, 166, 199);
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.flexbox{
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+    gap: 50px;
+    color: rgb(0, 0, 0);  
+    margin: 20px;
+    padding: 20px;
+    justify-content: center;
+    
+   
+}
+
+.flexbox li{
+    border: solid 5px;
+    width: 80px;
+    height: 80px;
+    background-color: rgb(109, 204, 211);
+    justify-content: center;
+    text-align: center;
+    line-height: 70px;
+  
+
+}
+
+.grid{
+    background-color: rgb(116, 166, 199);
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.grid-list{
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.grid-list li{
+    border: solid 5px;
+    width: 80px;
+    height: 80px;
+    background-color: rgb(109, 204, 211);
+    justify-content: center;
+    text-align: center;
+    line-height: 70px;      
 }
