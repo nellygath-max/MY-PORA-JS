@@ -98,27 +98,27 @@
 // }; 
 // console.log(greet("Chinelo"));
 
-const greet = function(Chinelo) 
-{ return "Hello " + Chinelo; 
+// const greet = function(Chinelo) 
+// { return "Hello " + Chinelo; 
 
-}; 
-console.log(greet("Chinelo"));
+// }; 
+// console.log(greet("Chinelo"));
 
 // Build simple calculator
-let num1 = 10;
-let num2 = 5;
+// let num1 = 10;
+// let num2 = 5;
 
-let result = num1 + num2;
+// let result = num1 + num2;
 
-console.log(result);
+// console.log(result);
 
 
 // Conditions
-let age = 18
+// let age = 18
 
-if (age >= 18){
-  console.log("You are eligible for voting");
-}
-else{
-  console.log("You are not eligible for voting");
-}
+// if (age >= 18){
+//   console.log("You are eligible for voting");
+// }
+// else{
+//   console.log("You are not eligible for voting");
+// }
