@@ -1,0 +1,120 @@
+
+.TEXTCONTENT:
+
+.textContent changes the text inside that element
+
+textContent behaves differently from both innerText and innerHTML.
+
+✅ textContent (VERY IMPORTANT)
+👉 What it does:
+Returns all text inside an element
+Ignores HTML tags (like innerText)
+BUT includes text that is hidden
+Faster than innerText
+
+
+Example:
+<p id="demo">Hello <b>world</b></p>
+console.log(document.getElementById("demo").textContent);
+
+👉 Output:
+Hello world
+
+✔ It removes <b> just like innerText
+
+
+QUESTION: 
+when to use innerHTML and innerText. Then, what will be the result when you console.log
+
+ANSWER:
+1. innerText vs innerHTML
+
+They both read or change content inside an HTML element, but they behave differently.
+
+
+innerText:
+
+Works with only visible text
+Ignores HTML tags
+Respects styling (like display: none)
+Slower in some cases because it checks what is visible
+
+EXAMPLE: 
+<p id="demo">Hello <b>world</b></p>
+
+console.log(document.getElementById("demo").innerText);
+
+Output:
+Hello world
+
+ It strips the <b> tag and gives only text.
+
+Important usage rule:
+
+Use innerText when:
+You only care about text (e.g. showing score, name, message)
+
+result.innerText = "Game Over";
+
+innerHTML:
+
+Returns everything inside the element including HTML tags
+You can also use it to insert new HTML
+
+Example:
+<p id="demo">Hello <b>world</b></p>
+
+console.log(document.getElementById("demo").innerHTML);
+
+👉 Output:
+
+Hello <b>world</b>
+
+✔ It keeps the HTML structure.
+
+Use innerHTML when:
+You want to include HTML formatting
+result.innerHTML = "<b>Game Over</b>";
+
+Simple way to remember
+innerText → “What the user sees”
+innerHTML → “What the browser code contains”
+
+
+DIFFERENCE BETWEEN textContent, innerText AND innerHTML
+
+Example:
+<p id="demo" style="display:none">Hello world</p>
+console.log(demo.innerText);
+console.log(demo.textContent);
+👉 Output:
+innerText → "" (empty)
+textContent → "Hello world"
+
+✔ Why?
+
+innerText respects CSS (hidden = ignored)
+textContent ignores CSS (always reads text)
+
+When to use each one
+✅ Use textContent when:
+You just want raw text
+You want best performance
+You don’t care about visibility
+title.textContent = "Welcome User";
+
+Use innerText when:
+You want what the user actually sees
+You care about styling/visibility
+console.log(button.innerText);
+
+
+Use innerHTML when:
+You need to insert HTML tags
+box.innerHTML = "<b>Bold Text</b>";
+
+
+Simple memory trick
+innerHTML → includes tags
+innerText → visible text only
+textContent → all text (fast + raw)

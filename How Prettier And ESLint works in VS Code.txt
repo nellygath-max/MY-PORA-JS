@@ -1,0 +1,143 @@
+Install prettier
+
+What Prettier does?
+
+Prettier formats your code automatically so it looks clean and consistent.
+
+It fixes:
+
+Indentation
+Spacing
+Line breaks
+Quotes
+Brackets alignment
+
+Before Prettier
+function  greet( name ){
+console.log("Hello,"+name)
+}
+
+After Prettier
+function greet(name) {
+  console.log("Hello, " + name);
+}
+
+
+
+ESLint — what it is and what it does
+
+ESLint is a JavaScript code checker (linter) used inside Visual Studio Code.
+It helps you find mistakes, bad practices, and potential bugs while you type.
+
+ESLint does not automatically correct logic errors.
+It points them out so you can fix them.
+
+What ESLint actually does
+
+ESLint analyzes your JavaScript code and shows:
+
+Example
+❌ Code with problems
+let age = 20
+age = 20
+console.log(ages)
+❌ Errors (things that can break your code)
+⚠️ Warnings (bad or risky coding habits)
+💡 Suggestions (better ways to write code)
+
+It does not format code like Prettier.
+
+ESLint will warn/error:
+ages is not defined ❌
+Variable reassigned unnecessarily ⚠️
+Missing semicolon (depending on rules)
+
+Code after fixing ESLint issues
+let age = 20;
+console.log(age);
+
+ESLint vs Prettier (quick reminder)
+ESLint → checks correctness
+Prettier → formats appearance
+
+They work together, not against each other.
+
+▶ How ESLint helps you as a beginner
+
+✔ Catches typos early
+✔ Teaches good JavaScript habits
+✔ Reduces bugs
+✔ Makes you think before running code
+
+⚙ How ESLint works in VS Code
+
+Once installed:
+
+Errors show as red squiggly lines
+Warnings show as yellow lines
+Hover your mouse to read the message
+
+
+ESLint = JavaScript mistake detector (finds errors, bad practices, and warnings)
+Prettier = organizes and formats your code (makes it clean and readable)
+
+For HTML (simple explanation)
+Prettier → organizes / formats HTML
+HTML validation tools → detect HTML mistakes
+✅ Prettier for HTML (organizer)
+
+Prettier works for HTML too, not only JavaScript.
+
+What it does in HTML
+Fixes indentation
+Aligns tags
+Closes tags neatly
+Makes the structure readable
+
+
+Example
+❌ Before Prettier
+
+<div><p>Hello</p><span>World</span></div>
+
+After Prettier
+
+<div>
+  <p>Hello</p>
+  <span>World</span>
+</div>
+
+Prettier does NOT catch HTML mistakes
+
+Prettier will not warn you if:
+
+<img src="photo.jpg">
+<p><div>Hello</p></div>
+
+It only formats — it doesn’t know what is wrong.
+
+
+what tools will you use to correct them ESLint, if it deugs or detects error
+
+Quick Fix (ESLint auto-fix)
+
+Some ESLint issues can be auto-fixed.
+
+How:
+
+Hover on the error
+Click Quick Fix
+Select Fix ESLint problem
+
+✔ Works for:
+
+Missing semicolons
+Unused variables
+
+Simple syntax rules
+
+❌ Does NOT fix:
+
+Wrong logic
+Wrong variable names
+Wrong conditions

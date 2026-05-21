@@ -1,0 +1,346 @@
+
+FUNCTION EXPRESSION
+
+NOTE:IN FUNCION EXPRESSION:
+function = is the value
+function () { ... } is also a value (just a function value)
+
+EXAMPLE: 
+
+const changeColor = function () {   -------function here is a values just like numbers or strings
+    document.body.style.background = "red";
+};
+
+Think of it like:
+
+changeColor = a box
+function = a tool
+you are putting the tool inside the box
+
+
+
+
+BUT IN FUNCTION DECLARATION:
+
+It uses the function keyword
+
+Function is named: changeBgColor
+
+Name is useful for:
+debugging
+reuse (if defined outside)
+
+EXAMPLE: 
+
+function changeBgColor() { ------function here is a keyword
+        const color = ["skyblue", "darkgoldenrod", "lightgreen", "magenta", "yellow", "white", "purple"];
+        const randomColor = color[Math.floor(Math.random() * color.length)];
+        document.body.style.backgroundColor = randomColor;
+    }
+);
+
+
+
+
+CONTINUATION OF FUNCTION EXPRESSION
+
+Function Expressions
+A function expression is a function stored in a variable
+The variable name can be used to call the function
+
+Basic idea
+The function has no name (usually)
+The variable acts like the function name
+
+Example:
+
+const greet = function () {
+  console.log("Hello!");
+};
+
+greet();
+
+What is happening here?
+function () { ... } is the function
+It is stored in the variable greet
+You call it using greet()
+
+Simple way to remember
+Function declaration: named function written directly
+Function expression: function stored inside a variable
+
+
+QUESTION: const greet = function . why this function here after equals to
+
+Let’s break it down:
+
+const greet = function () {
+  console.log("Hello!");
+};
+
+Why is function there after =?
+
+Because in JavaScript, a function is a value, just like a number or a string.
+
+So here’s what is happening:
+
+1. The function itself
+
+function () {
+  console.log("Hello!");
+}
+
+This part is a function value (an anonymous function — no name).
+
+2. Assigning it to a variable
+const greet = ...
+
+You are storing that function inside the variable greet.
+
+So the full meaning is:
+
+“Put this function inside the variable greet.”
+
+3. Why after =
+
+Because JavaScript works like this:
+
+variable = value
+
+And here:
+
+the value is a function
+so we write:
+const greet = function () { ... };
+
+EXAMPLE:
+
+Simple way to understand it
+
+Think of it like this:
+
+const number = 5;
+
+Now compare:
+
+const greet = function () {
+  console.log("Hello!");
+};
+
+5 is a value
+function () { ... } is also a value (just a function value)   function () { ... } is also a value (just a function value)
+
+ Function holder (simple way to think about it)
+greet holds a function
+Important idea
+
+When you call:
+
+greet();
+
+You are not calling a named function directly.
+
+You are:
+
+calling the function stored inside greet
+
+
+Simple analogy
+
+Think of it like this:
+
+greet = a contact name in your phone 📱
+function = the actual phone number (the action)
+
+So when you tap greet, it calls the number (runs the function).
+
+Important idea
+
+In JavaScript:
+
+Functions are “first-class values” (they can be stored in variables)
+
+That’s why you can do:
+
+const sayHi = function () {
+  console.log("Hi");
+};
+
+and later:
+
+sayHi();
+
+Very simple summary
+
+We write function after = because:
+
+we are creating a function value
+and storing it inside a variable
+
+
+
+
+
+FUNCTION DECLARATION:
+
+Hoisting in JavaScript is a behavior where variable and function 
+declarations are moved to the top of their scope before the code runs (during the compilation phase).
+
+JavaScript “reads” your code twice:
+
+First pass: it registers declarations (hoists them)
+Second pass: it runs the code line by line
+
+Example with var
+console.log(x); // undefined
+var x = 5;
+
+What actually happens internally:
+
+var x; // hoisted (declared first)
+console.log(x); // undefined
+x = 5;
+
+
+Example with let and const
+console.log(y);
+let y = 10;
+
+❌ This gives an error:
+
+Cannot access 'y' before initialization
+
+let y = 10;
+
+❌ This gives an error:
+
+Cannot access 'y' before initialization
+
+👉 Why?
+
+let and const are hoisted too
+but they are in a temporal dead zone (TDZ) until the line where they are defined
+🔹 Function hoisting
+
+Function hoisting
+sayHi();
+
+function sayHi() {
+  console.log("Hello!");
+}
+
+✔ This works perfectly because:
+
+function declarations are fully hoisted (name + body)
+
+Internally (what JS sees first):
+
+function sayHi() {
+  console.log("Hello!");
+}
+
+Then it runs the rest:
+
+sayHi();
+
+Why this works
+
+Because:
+
+✔ Function declarations are fully hoisted
+✔ That means JavaScript already knows sayHi exists BEFORE it reaches the function line
+
+So this is valid even though it looks reversed.
+
+HOW JavaScript TREATS CONST AND LET:
+
+Step-by-step internally:
+JS sees the variable:
+
+const sayHi;
+
+It is hoisted (created early)
+
+But it is in the Temporal Dead Zone (TDZ)
+❌ You cannot use it yet
+Only when JS reaches this line:
+
+sayHi = function () { ... }
+
+
+
+
+So it looks like you can use them before they are written in the code.
+
+const Chinelo = "Chinelo"; ---------IT IS BEING DECLARED OR DEFINED
+
+function greet() {         ---------function "greet" has no parameters (nothing is here ie parameters).Note parenthesis is the bracket() but inside parenthesis is parameter
+  return "Hello " + Chinelo;
+}
+
+console.log(greet());   ------------You passed "Chinelo" as an argument. This is an Argument.
+
+BUT HERE function greet has parameters
+
+const Chinelo = "Chinelo"; ---------IT IS BEING DECLARED OR DEFINED
+
+function greet(name) {         ---------function "greet" has parameters (something is here ie parameters).Note parenthesis is the bracket() but inside parenthesis is parameter
+  return "Hello " + Chinelo;
+}
+
+console.log(greet());   ------------You passed "Chinelo" as an argument. This is an Argument.
+
+
+The correct way of (using a parameter)
+
+If you want to pass "Chinelo" into the function, you must define a parameter:
+
+function greet(name) {
+  return "Hello " + name;
+}
+
+console.log(greet("Chinelo"));
+
+✅ Output:
+Hello Chinelo
+
+ANOTHER EXAMPLE:
+
+What type of function is this? 
+ 
+function greet() {
+  return "Hello " + Chinelo;
+}
+
+✅ This is called a function declaration
+❌ It is NOT a function expression.
+
+Why?
+A function declaration starts with the function keyword and has a name.
+A function expression is when a function is stored in a variable.
+
+
+Function declaration example
+
+function greet() {
+  return "Hello";
+}
+
+Function expression example:
+
+const greet = function () {
+  return "Hello";
+};
+
+
+Parameter = the variable inside the function definition
+Argument = the value you pass when calling the function
+
+Easy rule to remember:
+Function declaration → function name() {}
+Function expression → const name = function() {}
+
+
+Hoisting in JavaScript is a behavior where variable and function declarations are moved to the top of their scope before the code runs (during the compilation phase).
+
+So it looks like you can use them before they are written in the code.

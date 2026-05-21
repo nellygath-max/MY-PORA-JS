@@ -128,26 +128,29 @@ document.getElementById("form").addEventListener("submit", function (event) {
 });
 
 
+
+
 // 6. Age Display Form Logic (Normal Function Version - Commented Out)
+
 // document.getElementById("age-form").addEventListener("submit", function (event) {
 //     // Prevents the page from reloading when the submit button is clicked
 //     event.preventDefault();
-//     
+    
 //     // Retrieve the input birth year
 //     const birthYearVal = document.getElementById("birth-year").value;
 //     const resultElement = document.getElementById("age-result");
-//     
+    
 //     // Check if the input is empty
 //     if (birthYearVal === "") {
 //         resultElement.textContent = "Please enter a birth year!";
 //         resultElement.style.color = "red";
 //         return;
 //     }
-//     
+    
 //     // Calculate the age
 //     const currentYear = new Date().getFullYear();
 //     const age = currentYear - parseInt(birthYearVal);
-//     
+    
 //     // Display the result with basic validation
 //     if (age < 0) {
 //         resultElement.textContent = "Oops! Birth year cannot be in the future.";
