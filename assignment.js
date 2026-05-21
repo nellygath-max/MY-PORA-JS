@@ -19,11 +19,28 @@ resetBtn.addEventListener("click", () => {
 });
 
 
+document.getElementById("bg-pink").addEventListener("click", () => {
+    document.body.style.backgroundColor = "pink";
+});
 
-const button2 = document.getElementById("btn2");
+document.getElementById("bg-skyblue").addEventListener("click", () => {
+    document.body.style.backgroundColor = "blue";
+});
 
+document.getElementById("bg-green").addEventListener("click", () => {
+    document.body.style.backgroundColor = "green";
+});
 
-// button2.addEventListener("click", () => {
+document.getElementById("bg-purple").addEventListener("click", () => {
+    document.body.style.backgroundColor = "purple";
+});
+
+document.getElementById("bg-orange").addEventListener("click", () => {
+    document.body.style.backgroundColor = "orange";
+});
+
+        //  OR THIS ONE
+// button2.addEventListener("click", () => {  ----> ANONYMOUS FUNCTION/ARROW FUNCTION VERSION
     
 //     const color =  ["skyblue", "red", "lightgreen", "goldenrod", "yellow", "white", "purple"];
 //     const randomColor = color[Math.floor(Math.random() * color.length)];
@@ -32,7 +49,7 @@ const button2 = document.getElementById("btn2");
 
 // OR THIS ONE
 
-// button2.addEventListener("click", function changeBgColor() {
+// button2.addEventListener("click", function changeBgColor() {   ----> ANONYMOUS FUNCTION/ FUNCTION EXPRESSION VERSION
 //         const color =  ["skyblue", "darkgoldenrod", "lightgreen", "magenta", "yellow", "white", "purple"];
 //         const randomColor = color[Math.floor(Math.random() * color.length)];
 //         document.body.style.backgroundColor = randomColor;
@@ -42,25 +59,31 @@ const button2 = document.getElementById("btn2");
 // OR THIS
 // button2.addEventListener("click", changeColor);
 
-// function changeColor() {
+// function changeColor() {   ------> FUNCTION DECLARATION VERSION
 //     const color = ["skyblue", "red", "lightgreen", "goldenrod", "yellow", "white", "purple"];
 //     const randomColor = color[Math.floor(Math.random() * color.length)];
 //     document.body.style.backgroundColor = randomColor;
 // }
 
-// OR THIS ONE
-function changeColor() {
-    const color = ["skyblue", "red", "lightgreen", "goldenrod", "yellow", "white", "purple"];
-    const randomColor = color[Math.floor(Math.random() * color.length)];
-    document.body.style.backgroundColor = randomColor;
-}
+// OR THIS ONE -----FUNCTION DECLARATION VERSION
+// function changeColor() { 
+//     const color = ["skyblue", "red", "lightgreen", "goldenrod", "yellow", "white", "purple"];
+//     const randomColor = color[Math.floor(Math.random() * color.length)];
+//     document.body.style.backgroundColor = randomColor;
+// }
 
-button2.addEventListener("click", changeColor);
+// button2.addEventListener("click", changeColor);
 
 
-// changeColor = function () { ... }
 
-// function changeColor() {}
+
+
+// changeColor = function () { ... } ---> changeColor() { ... }  (Function Declaration)
+
+// function changeColor() {} ---> changeColor = function () { ... }  (Function Expression)
+
+
+
 
 
 const greeting = document.getElementById("greeting");
@@ -80,20 +103,7 @@ if (currentHour < 12) {
 // ========================================================
 
 
-// 5. Favorite Color Form Logic
-document.getElementById("color-form").addEventListener("submit", function (event) {
-    // Prevents the page from reloading when the submit button is clicked
-    event.preventDefault();
-    
-    // Retrieve the color code selected by the user
-    const selectedColor = document.getElementById("fav-color").value;
-    
-    // Change the page's background color to the selected favorite color
-    document.body.style.backgroundColor = selectedColor;
-    
-    // Alert the user to confirm the update
-    alert("Applied! Your favorite color is: " + selectedColor);
-});
+//
 
 // 4. Contact Form Submission Logic (Arrow Function Version - Commented Out)
 // const contactForm = document.getElementById("form");
@@ -128,6 +138,20 @@ document.getElementById("form").addEventListener("submit", function (event) {
 });
 
 
+//  5. Favorite Color Form Logic
+document.getElementById("color-form").addEventListener("submit", function (event) {
+    // Prevents the page from reloading when the submit button is clicked
+    event.preventDefault();
+    
+    // Retrieve the color code selected by the user
+    const selectedColor = document.getElementById("fav-color").value;
+    
+    // Change the page's background color to the selected favorite color
+    document.body.style.backgroundColor = selectedColor;
+    
+    // Alert the user to confirm the update
+    alert("Applied! Your favorite color is: " + selectedColor);
+});
 
 
 // 6. Age Display Form Logic (Normal Function Version - Commented Out)
@@ -186,8 +210,9 @@ document.getElementById("age-form").addEventListener("submit", (event) => {
         resultElement.textContent = "Oops! Birth year cannot be in the future.";
         resultElement.style.color = "red";
     } else {
-        resultElement.textContent = "You are " + age + " years old!";
+        resultElement.textContent = "You are "  + age + " years old!";
         resultElement.style.color = "rgb(88, 126, 196)";
+        
     }
 });
 
