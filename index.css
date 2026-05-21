@@ -62,8 +62,8 @@ body{
 }
 
 .nellypics2{
-    width: 400px;
-    height:400px;
+    width: 50px;
+    height:50px;
     border-radius: 20px;   
     display: flex;
     margin-left: auto;
@@ -123,6 +123,31 @@ body{
     border-style: solid;
     border-width: 2px;
     border-color: rgb(88, 126, 196);
+}
+
+.msg-box {
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+    font-family: inherit;
+    resize: vertical;
+    max-width: 400px;
+}
+
+#fav-color {
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+    cursor: pointer;
+    background-color: white;
 }
 
 
@@ -200,3 +225,24 @@ body{
     text-align: center;
     line-height: 70px;      
 }
+
+/* Age Display Form Styling */
+.age-input {
+    color: rgb(31, 29, 29);
+    font-size: 25px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(88, 126, 196);
+    max-width: 250px;
+}
+
+.result-text {
+    font-size: 30px;
+    color: rgb(88, 126, 196);
+    margin-top: 15px;
+    font-weight: bold;
+}
+
