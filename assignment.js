@@ -128,6 +128,7 @@ document.getElementById("form").addEventListener("submit", function (event) {
     const nameVal = document.querySelector(".name1").value;
     const emailVal = document.getElementById("email").value;
     const phoneVal = document.querySelector(".tel").value;
+    const passwordVal = document.getElementById("password").value;
     const messageVal = document.getElementById("message").value;
     
     // Display a message to show it is working

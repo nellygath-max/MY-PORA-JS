@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <link rel="stylesheet" href="formvalidation.css">
+</head>
+<body>
+ 
+            //   STEP 1
+    <section>
+        <h2 id="Contactform">Form Validation</h2>
+
+        <form id="validateForm" novalidate>
+            <label for="name">FullName</label><br>
+            <input type="text" id="name" class="name" placeholder="Enter your fullname"><br>
+            <span class="error" id="nameError"></span><br><br>
+
+            <label for="email">Email</label><br>
+            <input type="email" id="email" placeholder="Enter your email"><br>
+            <span class="error" id="emailError"></span><br><br>
+
+            <label for="tel">Phone number</label><br>
+            <input type="tel" class="tel" id="tel" placeholder="Enter your phone number"><br>
+            <span class="error" id="phoneError"></span><br><br>
+
+            <label for="password">Password</label><br>
+            <input type="password" id="password" placeholder="Enter your password"><br>
+            <span class="error" id="passwordError"></span><br><br>
+
+            <label for="message">Message</label><br>
+            <textarea id="message" class="msg-box" rows="4" placeholder="Enter your message"></textarea><br>
+            <span class="error" id="messageError"></span><br><br>
+
+            <button type="submit" class="submit">Submit</button>
+        </form>
+    </section>
+    
+    <script src="formvalidation.js"></script>
+
+</body>
+</html>
