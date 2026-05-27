@@ -125,7 +125,7 @@ function isDuplicateSubmission(name, email, phone) {
 //   STEP 8
 document.getElementById("validateForm").addEventListener("submit", function(event) {   // -----We attach an "alarm system" to the form. It sits silently until the user clicks the Submit button.
 // form.addEventListener("submit", function(event) { --- This is the same as the line above, but it uses the variable form that we defined at the very top in line 4. It's cleaner, but it can be harder to debug if you accidentally mess up the variable name. The line above is more direct and less prone to that kind of error.   
-    // event.preventDefault(); // Prevent native submission/Stops the page from reloading/// This pauses the submission!
+    event.preventDefault(); // Prevent native submission/Stops the page from reloading/// This pauses the submission!
 
     if (!validateForm()) {  //  ---If validation fails, do not proceed with submission. By default, an HTML form will refresh the page the second you click submit. We don't want that! We want to check the data first.
         return;            // (The ! means fail/false). If it failed, we hit return;, which cancels the submission completely. If it passed, the code skips this and moves downward.
@@ -153,6 +153,7 @@ if (isDuplicateSubmission(name, email, phone)) {
 submittedRecords.push({ name, email, phone });
     alert("Form Submitted Successfully!");
     event.target.reset();
+    // form.reset();  // This is the same as the line above, but it uses the variable form that we defined at the very top in line 4. It's cleaner, but it can be harder to debug if you accidentally mess up the variable name. The line above is more direct and less prone to that kind of error.   
 });
 
 
