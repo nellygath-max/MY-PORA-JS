@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Country Info App</title>
+  <meta name="description" content="Explore every country in the world — population, capital, currency, languages and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ════════════════════════════════════════
+       ROOT & RESET
+    ════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0b0d17;
+      --surface:   #12152a;
+      --surface2:  #181c35;
+      --border:    #232846;
+      --accent:    #6c5ce7;
+      --accent2:   #00cec9;
+      --accent3:   #fd79a8;
+      --green:     #00b894;
+      --yellow:    #fdcb6e;
+      --text:      #eef0ff;
+      --muted:     #6b74a8;
+      --card-shadow: 0 8px 32px rgba(0,0,0,.45);
+      --radius:    16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* animated background blobs */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 45% at 10% 5%, rgba(108,92,231,.14) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 35% at 90% 90%, rgba(0,206,201,.1) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(253,121,168,.05) 0%, transparent 65%);
+    }
+
+    /* ════════════════════════════════════════
+       NAVBAR
+    ════════════════════════════════════════ */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(11,13,23,.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1.25rem; font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 60%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      cursor: pointer; text-decoration: none;
+    }
+    .nav-brand span { font-size: 1.3rem; -webkit-text-fill-color: initial; }
+    .nav-count {
+      font-size: .78rem; color: var(--muted); font-weight: 500;
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 4px 12px; border-radius: 50px;
+    }
+
+    /* ════════════════════════════════════════
+       HERO / HEADER
+    ════════════════════════════════════════ */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center; padding: 56px 24px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 18px; border-radius: 50px;
+      background: rgba(108,92,231,.14);
+      border: 1px solid rgba(108,92,231,.35);
+      font-size: .75rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent2);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.15;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 55%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .hero p { color: var(--muted); font-size: 1rem; max-width: 480px; margin: 0 auto; }
+
+    /* ════════════════════════════════════════
+       CONTROLS — search + filter
+    ════════════════════════════════════════ */
+    .controls {
+      position: relative; z-index: 1;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-wrap {
+      flex: 1; min-width: 220px; position: relative;
+    }
+    .search-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 1rem; color: var(--muted); pointer-events: none;
+    }
+    #search-input {
+      width: 100%; padding: 11px 14px 11px 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: .92rem;
+      outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    #search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(108,92,231,.18);
+    }
+    #search-input::placeholder { color: var(--muted); }
+
+    #region-filter {
+      padding: 11px 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: .92rem;
+      outline: none; cursor: pointer; min-width: 180px;
+      transition: border-color .2s;
+    }
+    #region-filter:focus { border-color: var(--accent); }
+    #region-filter option { background: var(--surface); }
+
+    .sort-btn {
+      padding: 11px 18px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); font-family: 'Inter', sans-serif;
+      font-size: .85rem; cursor: pointer; transition: all .2s;
+      white-space: nowrap;
+    }
+    .sort-btn:hover, .sort-btn.active {
+      border-color: var(--accent); color: var(--text);
+      background: var(--surface2);
+    }
+
+    .results-info {
+      margin-left: auto; font-size: .82rem; color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ════════════════════════════════════════
+       MAIN CONTENT (grid view)
+    ════════════════════════════════════════ */
+    #main-view {
+      position: relative; z-index: 1;
+      padding: 28px;
+    }
+
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Country Card ── */
+    .country-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .22s, box-shadow .22s, border-color .22s;
+      animation: fadeUp .35s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .country-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--card-shadow);
+      border-color: var(--accent);
+    }
+    .card-flag {
+      width: 100%; height: 160px; object-fit: cover;
+      display: block; background: var(--surface2);
+    }
+    .card-flag-emoji {
+      width: 100%; height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .card-body { padding: 18px; }
+    .card-name {
+      font-size: 1rem; font-weight: 700; margin-bottom: 10px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-row {
+      display: flex; gap: 6px; align-items: baseline;
+      font-size: .82rem; color: var(--muted); margin-bottom: 4px;
+    }
+    .card-row b { color: var(--text); font-weight: 500; }
+    .card-region-badge {
+      display: inline-block; margin-top: 12px;
+      padding: 3px 10px; border-radius: 6px; font-size: .72rem; font-weight: 600;
+    }
+
+    /* region colours */
+    .r-Africa   { background: rgba(253,203,110,.15); color: var(--yellow); border: 1px solid rgba(253,203,110,.3); }
+    .r-Americas { background: rgba(0,184,148,.15);   color: var(--green);  border: 1px solid rgba(0,184,148,.3); }
+    .r-Asia     { background: rgba(108,92,231,.15);  color: #a29bfe;       border: 1px solid rgba(108,92,231,.3); }
+    .r-Europe   { background: rgba(0,206,201,.15);   color: var(--accent2);border: 1px solid rgba(0,206,201,.3); }
+    .r-Oceania  { background: rgba(253,121,168,.15); color: var(--accent3);border: 1px solid rgba(253,121,168,.3); }
+    .r-Antarctic { background: rgba(200,200,255,.1); color: #a0aaff;       border: 1px solid rgba(200,200,255,.2); }
+
+    /* ════════════════════════════════════════
+       SKELETON LOADER
+    ════════════════════════════════════════ */
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .skeleton-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .skeleton-flag  { height: 160px; background: var(--surface2); }
+    .skeleton-body  { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+    .skeleton-line  {
+      height: 12px; border-radius: 6px;
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ════════════════════════════════════════
+       EMPTY / ERROR STATE
+    ════════════════════════════════════════ */
+    .empty-state {
+      text-align: center; padding: 80px 24px;
+      grid-column: 1 / -1;
+    }
+    .empty-icon { font-size: 3.5rem; margin-bottom: 16px; opacity: .5; }
+    .empty-state h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .empty-state p  { color: var(--muted); font-size: .9rem; }
+
+    /* ════════════════════════════════════════
+       DETAIL VIEW (modal overlay)
+    ════════════════════════════════════════ */
+    #detail-view {
+      display: none;
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(7,8,15,.85);
+      backdrop-filter: blur(12px);
+      overflow-y: auto;
+      animation: fadeIn .2s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    #detail-view.open { display: block; }
+
+    .detail-inner {
+      max-width: 860px; margin: 48px auto; padding: 0 20px 60px;
+    }
+    .detail-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px; border-radius: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: 'Inter', sans-serif;
+      font-size: .88rem; font-weight: 600;
+      cursor: pointer; margin-bottom: 32px;
+      transition: all .2s;
+    }
+    .detail-back:hover { border-color: var(--accent); background: var(--surface2); }
+
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+    }
+    .detail-flag-wrap {
+      width: 100%; height: 300px; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface2);
+      position: relative;
+    }
+    .detail-flag-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .detail-flag-emoji-big {
+      font-size: 9rem; line-height: 1;
+    }
+    .detail-flag-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(18,21,42,.8) 0%, transparent 60%);
+    }
+    .detail-name-over {
+      position: absolute; bottom: 20px; left: 28px;
+      font-size: 2rem; font-weight: 800;
+    }
+
+    .detail-body { padding: 32px; }
+
+    .detail-meta {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 28px;
+    }
+    @media (max-width: 600px) { .detail-meta { grid-template-columns: 1fr; } }
+
+    .meta-item { }
+    .meta-label { font-size: .75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; }
+    .meta-value { font-size: .95rem; font-weight: 600; color: var(--text); }
+
+    .detail-divider {
+      border: none; border-top: 1px solid var(--border); margin: 24px 0;
+    }
+
+    .detail-section-title {
+      font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--muted); font-weight: 700; margin-bottom: 12px;
+    }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      padding: 5px 14px; border-radius: 8px;
+      background: var(--surface2); border: 1px solid var(--border);
+      font-size: .8rem; color: var(--text); font-weight: 500;
+    }
+    .tag.border-country {
+      cursor: pointer; transition: all .2s;
+    }
+    .tag.border-country:hover {
+      border-color: var(--accent); color: var(--accent2);
+      background: rgba(108,92,231,.1);
+    }
+
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; text-align: center;
+    }
+    .stat-num { font-size: 1.4rem; font-weight: 800; color: var(--accent2); }
+    .stat-lbl { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    /* ════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════ */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 36px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .82rem;
+    }
+
+    /* ════════════════════════════════════════
+       SCROLLBAR
+    ════════════════════════════════════════ */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    @media (max-width: 640px) {
+      .controls { padding: 16px; }
+      #main-view { padding: 16px; }
+      nav { padding: 0 16px; }
+      .detail-inner { margin: 20px auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav>
+  <a class="nav-brand" href="#" onclick="closeDetail()">
+    <span>🌍</span> CountryInfo
+  </a>
+  <span class="nav-count" id="nav-count">Loading…</span>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-badge">🌐 REST Countries API</div>
+  <h1>Explore Every Country<br/>in the World</h1>
+  <p>Search, filter, and dive deep into data for 250+ countries — flags, capitals, population, languages & more.</p>
+</header>
+
+<!-- ════════════════════════════════════════
+     CONTROLS
+════════════════════════════════════════ -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Search for a country…" autocomplete="off" />
+  </div>
+
+  <select id="region-filter">
+    <option value="">All Regions</option>
+    <option value="Africa">Africa</option>
+    <option value="Americas">Americas</option>
+    <option value="Asia">Asia</option>
+    <option value="Europe">Europe</option>
+    <option value="Oceania">Oceania</option>
+    <option value="Antarctic">Antarctic</option>
+  </select>
+
+  <button class="sort-btn active" id="sort-name"   onclick="setSort('name')">A → Z</button>
+  <button class="sort-btn"        id="sort-pop"    onclick="setSort('pop')">Population ↓</button>
+  <button class="sort-btn"        id="sort-area"   onclick="setSort('area')">Area ↓</button>
+
+  <span class="results-info" id="results-info"></span>
+</div>
+
+<!-- ════════════════════════════════════════
+     MAIN GRID VIEW
+════════════════════════════════════════ -->
+<main id="main-view">
+  <!-- skeleton while loading -->
+  <div class="skeleton-grid" id="skeleton">
+    <!-- 12 skeleton cards -->
+  </div>
+  <!-- country cards injected here -->
+  <div class="countries-grid" id="grid" style="display:none"></div>
+</main>
+
+<!-- ════════════════════════════════════════
+     DETAIL / MODAL VIEW
+════════════════════════════════════════ -->
+<div id="detail-view">
+  <div class="detail-inner">
+    <button class="detail-back" onclick="closeDetail()">← Back to List</button>
+    <div class="detail-card" id="detail-card">
+      <!-- injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <p>Data provided by <strong>restcountries.com</strong> · 250+ countries · Built with Vanilla JS</p>
+</footer>
+
+<!-- ════════════════════════════════════════
+     JAVASCRIPT — Full App Logic
+════════════════════════════════════════ -->
+<script>
+/*
+ ┌─────────────────────────────────────────────────────────────┐
+ │  COUNTRY INFO APP — JavaScript Guide                        │
+ │                                                             │
+ │  API used: https://restcountries.com/v3.1/all               │
+ │                                                             │
+ │  Concepts used:                                             │
+ │  • async / await + fetch()                                  │
+ │  • Array methods: .filter(), .sort(), .slice(), .map()      │
+ │  • DOM manipulation (createElement, innerHTML, classList)   │
+ │  • Event listeners (input, change, click)                   │
+ │  • Debouncing (prevent too many search calls)               │
+ └─────────────────────────────────────────────────────────────┘
+*/
+
+// ─────────────────────────────────────────
+// STEP 1: API URL & State Variables
+// ─────────────────────────────────────────
+/*
+  We store the data in variables so we only
+  fetch from the API ONCE — then filter/sort
+  the local copy instantly.
+*/
+const API_URL      = 'https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,subregion,area,languages,currencies,borders,cca3,tld,timezones';
+let allCountries   = [];   // full list from API
+let displayed      = [];   // current filtered + sorted list
+let sortMode       = 'name'; // default sort
+let countryMap     = {};   // cca3 code → country (for border lookup)
+
+// ─────────────────────────────────────────
+// STEP 2: Build Skeleton Loaders
+// ─────────────────────────────────────────
+/*
+  While the API request is loading, we show
+  "skeleton" placeholder cards so the page
+  doesn't look blank.
+*/
+function buildSkeletons() {
+  const wrap = document.getElementById('skeleton');
+  for (let i = 0; i < 12; i++) {
+    wrap.innerHTML += `
+      <div class="skeleton-card">
+        <div class="skeleton-flag"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line" style="width:65%"></div>
+          <div class="skeleton-line" style="width:80%"></div>
+          <div class="skeleton-line" style="width:50%"></div>
+          <div class="skeleton-line" style="width:70%"></div>
+        </div>
+      </div>`;
+  }
+}
+
+// ─────────────────────────────────────────
+// STEP 3: Fetch All Countries from API
+// ─────────────────────────────────────────
+/*
+  async function — allows us to use await.
+  fetch() sends GET request to the REST Countries API.
+  .json() parses the raw response text into a JS array.
+  We then sort alphabetically and store it globally.
+*/
+async function loadCountries() {
+  buildSkeletons();
+  try {
+    const response = await fetch(API_URL);
+
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Sort A→Z by default
+    allCountries = data.sort((a, b) =>
+      a.name.common.localeCompare(b.name.common)
+    );
+
+    // Build a lookup map: cca3 → country
+    // (used later to show neighbour country names)
+    allCountries.forEach(c => { countryMap[c.cca3] = c; });
+
+    // Update nav count
+    document.getElementById('nav-count').textContent =
+      `${allCountries.length} countries`;
+
+    // Hide skeletons, show grid
+    document.getElementById('skeleton').style.display = 'none';
+    document.getElementById('grid').style.display = 'grid';
+
+    // Render all countries
+    applyFilters();
+
+  } catch (error) {
+    document.getElementById('skeleton').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">❌</div>
+        <h3>Failed to load countries</h3>
+        <p>${error.message}</p>
+        <p style="margin-top:12px">Check your internet connection and refresh the page.</p>
+      </div>`;
+    console.error('Failed to fetch countries:', error);
+  }
+}
+
+// ─────────────────────────────────────────
+// STEP 4: Filter + Sort + Render
+// ─────────────────────────────────────────
+/*
+  applyFilters() is called every time the user:
+    - types in the search box
+    - changes the region dropdown
+    - clicks a sort button
+
+  It filters the allCountries array, sorts it,
+  then passes the result to renderGrid().
+*/
+function applyFilters() {
+  const query  = document.getElementById('search-input').value.trim().toLowerCase();
+  const region = document.getElementById('region-filter').value;
+
+  // --- FILTER ---
+  // .filter() returns a NEW array containing only items
+  // where the callback function returns true.
+  let result = allCountries.filter(country => {
+    const nameMatch    = country.name.common.toLowerCase().includes(query);
+    const regionMatch  = region ? country.region === region : true;
+    return nameMatch && regionMatch;
+  });
+
+  // --- SORT ---
+  // .sort() rearranges in place; we compare two values a & b.
+  // Negative = a first, Positive = b first, 0 = equal.
+  if (sortMode === 'name') {
+    result.sort((a, b) => a.name.common.localeCompare(b.name.common));
+  } else if (sortMode === 'pop') {
+    result.sort((a, b) => (b.population || 0) - (a.population || 0));
+  } else if (sortMode === 'area') {
+    result.sort((a, b) => (b.area || 0) - (a.area || 0));
+  }
+
+  displayed = result;
+  document.getElementById('results-info').textContent =
+    `${result.length} countr${result.length === 1 ? 'y' : 'ies'} found`;
+
+  renderGrid(result);
+}
+
+// ─────────────────────────────────────────
+// STEP 5: Render Country Cards to DOM
+// ─────────────────────────────────────────
+/*
+  We use .map() to convert each country object
+  into an HTML string, then join them all together
+  and inject into the grid div.
+
+  .map() transforms EVERY item in an array and
+  returns a new array of the transformed values.
+*/
+function renderGrid(countries) {
+  const grid = document.getElementById('grid');
+
+  if (countries.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <h3>No countries found</h3>
+        <p>Try a different search term or reset your filters.</p>
+      </div>`;
+    return;
+  }
+
+  // Build each card as an HTML string
+  grid.innerHTML = countries.map((country, index) => {
+    const flag       = country.flags?.svg || country.flags?.png || '';
+    const emoji      = country.flags?.emoji || '🏳️';
+    const name       = country.name.common;
+    const capital    = country.capital?.[0] || 'N/A';
+    const pop        = formatNumber(country.population);
+    const region     = country.region || 'Unknown';
+    const area       = country.area ? formatNumber(Math.round(country.area)) + ' km²' : 'N/A';
+
+    // Stagger animation delay per card
+    const delay = Math.min(index * 30, 600);
+
+    return `
+      <div class="country-card" style="animation-delay:${delay}ms"
+           onclick="openDetail('${country.cca3}')">
+        ${flag
+          ? `<img class="card-flag" src="${flag}" alt="Flag of ${name}" loading="lazy"/>`
+          : `<div class="card-flag-emoji">${emoji}</div>`
+        }
+        <div class="card-body">
+          <div class="card-name">${name}</div>
+          <div class="card-row">📍 Capital: <b>${capital}</b></div>
+          <div class="card-row">👥 Population: <b>${pop}</b></div>
+          <div class="card-row">📐 Area: <b>${area}</b></div>
+          <span class="card-region-badge r-${region}">${region}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────
+// STEP 6: Open Detail View for One Country
+// ─────────────────────────────────────────
+/*
+  When a card is clicked, we look up the country
+  by its 3-letter code (cca3) from our map,
+  then build a rich detail panel.
+*/
+function openDetail(cca3) {
+  const c = countryMap[cca3];
+  if (!c) return;
+
+  // Extract data safely with optional chaining (?.)
+  const flag       = c.flags?.svg || c.flags?.png || '';
+  const emoji      = c.flags?.emoji || '🏳️';
+  const name       = c.name.common;
+  const official   = c.name.official || name;
+  const capital    = c.capital?.[0] || 'N/A';
+  const pop        = formatNumber(c.population);
+  const area       = c.area ? formatNumber(Math.round(c.area)) + ' km²' : 'N/A';
+  const region     = c.region || 'N/A';
+  const subregion  = c.subregion || 'N/A';
+  const tld        = c.tld?.join(', ') || 'N/A';
+  const timezones  = c.timezones?.join(', ') || 'N/A';
+
+  // Languages → join into a comma-separated string
+  const langs = c.languages
+    ? Object.values(c.languages).join(', ')
+    : 'N/A';
+
+  // Currencies → extract names
+  const currencies = c.currencies
+    ? Object.values(c.currencies).map(cur => `${cur.name} (${cur.symbol || '?'})`).join(', ')
+    : 'N/A';
+
+  // Border countries → look up names from our map
+  const borderHTML = (c.borders && c.borders.length > 0)
+    ? c.borders.map(code => {
+        const n = countryMap[code]?.name.common || code;
+        return `<span class="tag border-country" onclick="openDetail('${code}')">${n}</span>`;
+      }).join('')
+    : '<span style="color:var(--muted);font-size:.85rem">No land borders (island or isolated nation)</span>';
+
+  // Density calculation
+  const density = (c.population && c.area)
+    ? (c.population / c.area).toFixed(1) + ' /km²'
+    : 'N/A';
+
+  document.getElementById('detail-card').innerHTML = `
+    <div class="detail-flag-wrap">
+      ${flag
+        ? `<img src="${flag}" alt="Flag of ${name}"/>`
+        : `<div class="detail-flag-emoji-big">${emoji}</div>`
+      }
+      <div class="detail-flag-overlay"></div>
+      <div class="detail-name-over">${name}</div>
+    </div>
+
+    <div class="detail-body">
+
+      <!-- Stats row -->
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">${pop}</div>
+          <div class="stat-lbl">Population</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">${area}</div>
+          <div class="stat-lbl">Area</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">${density}</div>
+          <div class="stat-lbl">Density</div>
+        </div>
+      </div>
+
+      <!-- Meta grid -->
+      <div class="detail-meta">
+        <div class="meta-item">
+          <div class="meta-label">Official Name</div>
+          <div class="meta-value">${official}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Capital City</div>
+          <div class="meta-value">${capital}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Region</div>
+          <div class="meta-value">${region} — ${subregion}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Top-Level Domain</div>
+          <div class="meta-value">${tld}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Currencies</div>
+          <div class="meta-value">${currencies}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Timezones</div>
+          <div class="meta-value" style="font-size:.82rem">${timezones}</div>
+        </div>
+      </div>
+
+      <hr class="detail-divider"/>
+
+      <!-- Languages -->
+      <div class="detail-section-title">🗣 Languages Spoken</div>
+      <div class="tag-list" style="margin-bottom:22px">
+        ${langs.split(', ').map(l => `<span class="tag">${l}</span>`).join('')}
+      </div>
+
+      <!-- Borders -->
+      <div class="detail-section-title">🗺 Bordering Countries <span style="color:var(--muted);text-transform:none;font-weight:400">(click to explore)</span></div>
+      <div class="tag-list">${borderHTML}</div>
+
+    </div>`;
+
+  // Show the overlay
+  document.getElementById('detail-view').classList.add('open');
+  document.body.style.overflow = 'hidden'; // lock scroll
+}
+
+// Close detail view
+function closeDetail() {
+  document.getElementById('detail-view').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─────────────────────────────────────────
+// STEP 7: Helper Functions
+// ─────────────────────────────────────────
+// Format large numbers with commas: 1234567 → "1,234,567"
+function formatNumber(n) {
+  if (!n && n !== 0) return 'N/A';
+  return n.toLocaleString();
+}
+
+// Set active sort mode and re-render
+function setSort(mode) {
+  sortMode = mode;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`sort-${mode}`).classList.add('active');
+  applyFilters();
+}
+
+// ─────────────────────────────────────────
+// STEP 8: Event Listeners
+// ─────────────────────────────────────────
+/*
+  Debounce: we don't want to run applyFilters()
+  on EVERY single keystroke — we wait 250ms after
+  the user stops typing. This improves performance.
+*/
+let debounceTimer;
+document.getElementById('search-input').addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(applyFilters, 250);
+});
+
+document.getElementById('region-filter').addEventListener('change', applyFilters);
+
+// Close detail when clicking the dark overlay background
+document.getElementById('detail-view').addEventListener('click', function(e) {
+  if (e.target === this) closeDetail();
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDetail();
+});
+
+// ─────────────────────────────────────────
+// STEP 9: Kick off the app!
+// ─────────────────────────────────────────
+loadCountries();
+</script>
+</body>
+</html>

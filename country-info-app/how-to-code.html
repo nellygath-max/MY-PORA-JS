@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Country Info App — Beginner Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0d17;
+      --surface: #111426;
+      --surface2: #181d36;
+      --border: #242848;
+      --accent: #7c6fff;
+      --accent2: #00d4ff;
+      --green: #00ffb3;
+      --yellow: #ffd166;
+      --text: #eef0ff;
+      --muted: #6b74a8;
+      --code-bg: #07080e;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 70% 40% at 15% 5%, rgba(124,111,255,.13) 0%, transparent 60%);
+    }
+
+    header {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 60px 24px 44px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pill {
+      display: inline-block; padding: 6px 18px; border-radius: 50px;
+      background: rgba(124,111,255,.12); border: 1px solid rgba(124,111,255,.3);
+      font-size: .75rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--accent2); margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent2), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    header p { color: var(--muted); font-size: .98rem; max-width: 460px; margin: 0 auto; }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto;
+      padding: 44px 24px 80px;
+      display: flex; flex-direction: column; gap: 48px;
+    }
+
+    /* ── Step Header ── */
+    .step-head {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 18px;
+    }
+    .step-num {
+      width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .88rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+    .step-head h2 { font-size: 1.2rem; font-weight: 700; }
+    .step-head p  { font-size: .85rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── Code Block ── */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .code-top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .dots { display: flex; gap: 6px; }
+    .dot  { width: 10px; height: 10px; border-radius: 50%; }
+    .dot:nth-child(1){background:#ff5f57;}
+    .dot:nth-child(2){background:#febc2e;}
+    .dot:nth-child(3){background:#28c840;}
+    .code-label {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+      color: var(--muted);
+    }
+    pre {
+      padding: 22px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .83rem; line-height: 2;
+      color: #c9d1d9; overflow-x: auto;
+    }
+    .kw  { color: #ff79c6; }
+    .fn  { color: #50fa7b; }
+    .str { color: #f1fa8c; }
+    .cm  { color: #555e85; font-style: italic; }
+    .pr  { color: #8be9fd; }
+    .nm  { color: #ffb86c; }
+
+    /* ── Explanation Box ── */
+    .explain {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+    }
+    .explain-title {
+      padding: 13px 18px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      font-size: .85rem; font-weight: 700;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .explain-row {
+      display: flex; gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .explain-row:last-child { border-bottom: none; }
+    .explain-arrow {
+      padding: 14px 14px 0;
+      font-size: 1rem; color: var(--accent2);
+      flex-shrink: 0;
+    }
+    .explain-text { padding: 14px 14px; font-size: .86rem; }
+    .explain-text b { color: var(--text); }
+    .explain-text code {
+      font-family: 'JetBrains Mono', monospace; font-size: .78rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      padding: 1px 7px; border-radius: 5px; color: var(--accent2);
+    }
+
+    /* ── Live Demo ── */
+    .demo {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+    }
+    .demo-top {
+      padding: 13px 18px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .demo-label { font-size: .82rem; font-weight: 700; color: var(--muted); flex: 1; }
+    .btn {
+      padding: 9px 22px; border-radius: 9px; border: none;
+      font-family: 'Inter', sans-serif; font-size: .85rem; font-weight: 700;
+      cursor: pointer; transition: all .2s;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,111,255,.4); }
+
+    .demo-output {
+      padding: 18px 20px; min-height: 90px;
+      font-family: 'JetBrains Mono', monospace; font-size: .82rem;
+      color: var(--muted); line-height: 1.9;
+    }
+    .ok  { color: var(--green); }
+    .key { color: var(--accent2); }
+    .val { color: var(--yellow); }
+
+    /* ── Tip ── */
+    .tip {
+      background: rgba(0,255,179,.07);
+      border: 1px solid rgba(0,255,179,.22);
+      border-radius: 11px; padding: 14px 18px;
+      font-size: .86rem; color: var(--muted);
+      display: flex; gap: 10px;
+    }
+    .tip strong { color: var(--green); }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="pill">👶 Beginner Friendly</div>
+  <h1>Country Info App<br/>How to Code It</h1>
+  <p>3 simple examples — from fetching one country, to showing 5, to adding a search box.</p>
+</header>
+
+<div class="page">
+
+  <!-- ══════════════════════════════
+       EXAMPLE 1 — Fetch ONE Country
+  ══════════════════════════════ -->
+  <section>
+    <div class="step-head">
+      <div class="step-num">1</div>
+      <div>
+        <h2>Fetch One Country</h2>
+        <p>The simplest possible example — get data for Nigeria</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-top">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="code-label">Example 1</span>
+      </div>
+      <pre><span class="cm">// Step 1 — Ask the API for Nigeria's data</span>
+<span class="kw">fetch</span>(<span class="str">'https://restcountries.com/v3.1/name/nigeria'</span>)
+
+  <span class="cm">// Step 2 — Convert the response to JSON</span>
+  .<span class="fn">then</span>(<span class="pr">response</span> => <span class="pr">response</span>.<span class="fn">json</span>())
+
+  <span class="cm">// Step 3 — Use the data</span>
+  .<span class="fn">then</span>(<span class="pr">data</span> => {
+    <span class="kw">const</span> <span class="pr">country</span> = <span class="pr">data</span>[<span class="nm">0</span>];   <span class="cm">// API returns an array, take first item</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="pr">country</span>.<span class="pr">name</span>.<span class="pr">common</span>);   <span class="cm">// "Nigeria"</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="pr">country</span>.<span class="pr">capital</span>[<span class="nm">0</span>]);     <span class="cm">// "Abuja"</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="pr">country</span>.<span class="pr">population</span>);    <span class="cm">// 218541212</span>
+  });</pre>
+    </div>
+
+    <div class="explain" style="margin-bottom:14px">
+      <div class="explain-title">💬 What each line does</div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>fetch(url)</b> — sends a request to the API and gets country data back</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>.then(response => response.json())</b> — the API sends raw text, <code>.json()</code> converts it into a JavaScript object you can read</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>data[0]</b> — the API wraps results in an array <code>[ ]</code>, so we take the first item with <code>[0]</code></div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>country.name.common</b> — reads the name. <b>country.capital[0]</b> reads the capital city. <b>country.population</b> reads the number</div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-top">
+        <span class="demo-label">🔴 Live Demo — Try it</span>
+        <button class="btn" onclick="runExample1()">▶ Run</button>
+      </div>
+      <div class="demo-output" id="out1">Click Run to fetch Nigeria from the API…</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       EXAMPLE 2 — Show 5 Countries as Cards
+  ══════════════════════════════ -->
+  <section>
+    <div class="step-head">
+      <div class="step-num">2</div>
+      <div>
+        <h2>Show 5 Countries as Cards</h2>
+        <p>Fetch all countries, pick 5, display them on the page</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-top">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="code-label">Example 2</span>
+      </div>
+      <pre><span class="cm">// HTML you need: &lt;div id="cards"&gt;&lt;/div&gt;</span>
+
+<span class="kw">async function</span> <span class="fn">showFiveCountries</span>() {
+
+  <span class="cm">// 1. Fetch ALL countries</span>
+  <span class="kw">const</span> <span class="pr">response</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://restcountries.com/v3.1/all'</span>);
+  <span class="kw">const</span> <span class="pr">all</span>      = <span class="kw">await</span> <span class="pr">response</span>.<span class="fn">json</span>();
+
+  <span class="cm">// 2. Take only the first 5</span>
+  <span class="kw">const</span> <span class="pr">five</span> = <span class="pr">all</span>.<span class="fn">slice</span>(<span class="nm">0</span>, <span class="nm">5</span>);
+
+  <span class="cm">// 3. Build HTML for each country and put it on the page</span>
+  <span class="kw">const</span> <span class="pr">container</span> = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'cards'</span>);
+
+  <span class="pr">five</span>.<span class="fn">forEach</span>(<span class="pr">country</span> => {
+    <span class="pr">container</span>.<span class="pr">innerHTML</span> += <span class="str">`
+      &lt;div style="border:1px solid #333; padding:12px; margin:8px"&gt;
+        &lt;img src="${<span class="pr">country</span>.<span class="pr">flags</span>.<span class="pr">svg</span>}" width="60"/&gt;
+        &lt;h3&gt;${<span class="pr">country</span>.<span class="pr">name</span>.<span class="pr">common</span>}&lt;/h3&gt;
+        &lt;p&gt;Capital: ${<span class="pr">country</span>.<span class="pr">capital</span>?.[<span class="nm">0</span>] || <span class="str">'N/A'</span>}&lt;/p&gt;
+        &lt;p&gt;Population: ${<span class="pr">country</span>.<span class="pr">population</span>.<span class="fn">toLocaleString</span>()}&lt;/p&gt;
+      &lt;/div&gt;
+    `</span>;
+  });
+}
+
+<span class="fn">showFiveCountries</span>();</pre>
+    </div>
+
+    <div class="explain" style="margin-bottom:14px">
+      <div class="explain-title">💬 What each line does</div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>async / await</b> — cleaner way to wait for the API response. Code reads top-to-bottom like normal</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>.slice(0, 5)</b> — cuts the array. <code>slice(0, 5)</code> means "give me items from position 0 up to (not including) 5" = first 5 items</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>.forEach(country => { })</b> — loops through each of the 5 countries one by one</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>container.innerHTML +=</b> — adds a new card to the page each time the loop runs</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>country.capital?.[0]</b> — the <code>?.</code> means "only read [0] if capital exists". Some countries have no capital so this prevents a crash</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>.toLocaleString()</b> — formats 218541212 into "218,541,212" with commas for readability</div>
+      </div>
+    </div>
+
+    <div class="demo">
+      <div class="demo-top">
+        <span class="demo-label">🔴 Live Demo — Try it</span>
+        <button class="btn" onclick="runExample2()">▶ Run</button>
+      </div>
+      <div class="demo-output" id="out2">Click Run to show 5 countries…</div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       EXAMPLE 3 — Search a Country
+  ══════════════════════════════ -->
+  <section>
+    <div class="step-head">
+      <div class="step-num">3</div>
+      <div>
+        <h2>Search for Any Country</h2>
+        <p>Type a name, press Search, see the result</p>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-top">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <span class="code-label">Example 3</span>
+      </div>
+      <pre><span class="cm">/* HTML you need:
+   &lt;input id="search-box" placeholder="Type a country name"/&gt;
+   &lt;button onclick="searchCountry()"&gt;Search&lt;/button&gt;
+   &lt;div id="result"&gt;&lt;/div&gt;
+*/</span>
+
+<span class="kw">async function</span> <span class="fn">searchCountry</span>() {
+
+  <span class="cm">// 1. Read what the user typed</span>
+  <span class="kw">const</span> <span class="pr">name</span> = <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'search-box'</span>).<span class="pr">value</span>;
+
+  <span class="cm">// 2. Fetch that country from the API</span>
+  <span class="kw">const</span> <span class="pr">response</span> = <span class="kw">await</span> <span class="fn">fetch</span>(
+    <span class="str">`https://restcountries.com/v3.1/name/${<span class="pr">name</span>}`</span>
+  );
+
+  <span class="cm">// 3. If not found, show an error message</span>
+  <span class="kw">if</span> (!<span class="pr">response</span>.<span class="pr">ok</span>) {
+    <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'result'</span>).<span class="pr">innerHTML</span> =
+      <span class="str">'&lt;p&gt;Country not found. Try again.&lt;/p&gt;'</span>;
+    <span class="kw">return</span>;
+  }
+
+  <span class="cm">// 4. Parse and show the result</span>
+  <span class="kw">const</span> <span class="pr">data</span>    = <span class="kw">await</span> <span class="pr">response</span>.<span class="fn">json</span>();
+  <span class="kw">const</span> <span class="pr">country</span> = <span class="pr">data</span>[<span class="nm">0</span>];
+
+  <span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">'result'</span>).<span class="pr">innerHTML</span> = <span class="str">`
+    &lt;img src="${<span class="pr">country</span>.<span class="pr">flags</span>.<span class="pr">svg</span>}" width="80"/&gt;
+    &lt;h3&gt;${<span class="pr">country</span>.<span class="pr">name</span>.<span class="pr">common</span>}&lt;/h3&gt;
+    &lt;p&gt;Capital: ${<span class="pr">country</span>.<span class="pr">capital</span>?.[<span class="nm">0</span>]}&lt;/p&gt;
+    &lt;p&gt;Population: ${<span class="pr">country</span>.<span class="pr">population</span>.<span class="fn">toLocaleString</span>()}&lt;/p&gt;
+    &lt;p&gt;Region: ${<span class="pr">country</span>.<span class="pr">region</span>}&lt;/p&gt;
+  `</span>;
+}
+</pre>
+    </div>
+
+    <div class="explain" style="margin-bottom:14px">
+      <div class="explain-title">💬 What each line does</div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>document.getElementById('search-box').value</b> — reads whatever text the user typed into the input box</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>fetch(`.../${name}`)</b> — we put the user's typed name directly in the URL using <code>${ }</code>. So typing "Ghana" fetches <code>/name/ghana</code></div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>if (!response.ok)</b> — if the country doesn't exist, the API returns a 404 error. We check this and show a friendly message instead of crashing</div>
+      </div>
+      <div class="explain-row">
+        <div class="explain-arrow">→</div>
+        <div class="explain-text"><b>innerHTML = `...`</b> — replaces whatever is inside the result div with the new country info</div>
+      </div>
+    </div>
+
+    <!-- Live interactive demo -->
+    <div class="demo">
+      <div class="demo-top" style="flex-wrap:wrap; gap:10px">
+        <span class="demo-label">🔴 Live Demo — Try it</span>
+        <input id="search-box"
+          placeholder="e.g. Ghana, Japan, Brazil…"
+          style="flex:1;min-width:160px;padding:9px 14px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none"
+          onkeydown="if(event.key==='Enter') runExample3()"
+        />
+        <button class="btn" onclick="runExample3()">Search</button>
+      </div>
+      <div class="demo-output" id="out3">Type a country name above and press Search…</div>
+    </div>
+  </section>
+
+  <!-- ── Tip ── -->
+  <div class="tip">
+    <span>💡</span>
+    <span>
+      <strong>The pattern is always the same:</strong>
+      fetch() → .json() → use the data.
+      Once you understand these 3 examples, you can build any country app!
+    </span>
+  </div>
+
+</div><!-- /page -->
+
+<footer style="position:relative;z-index:1;text-align:center;padding:30px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem">
+  Data from <strong>restcountries.com</strong> — free, no API key needed
+</footer>
+
+<script>
+  /* ── Example 1: Fetch One Country ── */
+  async function runExample1() {
+    const out = document.getElementById('out1');
+    out.innerHTML = '<span style="color:var(--muted)">Fetching Nigeria…</span>';
+    try {
+      const res     = await fetch('https://restcountries.com/v3.1/name/nigeria');
+      const data    = await res.json();
+      const country = data[0];
+      out.innerHTML = `
+        <span class="ok">✅ Got data!</span><br/>
+        <span class="key">country.name.common</span>  → <span class="val">"${country.name.common}"</span><br/>
+        <span class="key">country.capital[0]</span>   → <span class="val">"${country.capital[0]}"</span><br/>
+        <span class="key">country.population</span>   → <span class="val">${country.population.toLocaleString()}</span><br/>
+        <span class="key">country.region</span>       → <span class="val">"${country.region}"</span><br/>
+        <span class="key">country.flags.svg</span>    → <span class="val">"${country.flags.svg.slice(0,40)}…"</span>
+      `;
+    } catch(e) {
+      out.innerHTML = `<span style="color:#ff4d6d">Error: ${e.message}</span>`;
+    }
+  }
+
+  /* ── Example 2: Show 5 Countries ── */
+  async function runExample2() {
+    const out = document.getElementById('out2');
+    out.innerHTML = '<span style="color:var(--muted)">Fetching countries…</span>';
+    try {
+      const res  = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,capital,population');
+      const all  = await res.json();
+      const five = all.sort((a,b) => a.name.common.localeCompare(b.name.common)).slice(0,5);
+
+      out.style.padding = '0';
+      out.style.fontFamily = 'Inter, sans-serif';
+      out.innerHTML = five.map(c => `
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.05)">
+          <img src="${c.flags.svg}" style="width:52px;height:34px;object-fit:cover;border-radius:5px;flex-shrink:0"/>
+          <div>
+            <div style="font-weight:700;font-size:.92rem">${c.name.common}</div>
+            <div style="font-size:.8rem;color:var(--muted)">
+              Capital: <b style="color:var(--accent2)">${c.capital?.[0] || 'N/A'}</b>
+              &nbsp;·&nbsp;
+              Pop: <b style="color:var(--yellow)">${c.population.toLocaleString()}</b>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    } catch(e) {
+      out.innerHTML = `<span style="color:#ff4d6d">Error: ${e.message}</span>`;
+    }
+  }
+
+  /* ── Example 3: Search Country ── */
+  async function runExample3() {
+    const name = document.getElementById('search-box').value.trim();
+    if (!name) return;
+    const out = document.getElementById('out3');
+    out.style.padding = '18px 20px';
+    out.style.fontFamily = 'JetBrains Mono, monospace';
+    out.innerHTML = `<span style="color:var(--muted)">Searching for "${name}"…</span>`;
+    try {
+      const res = await fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(name)}`);
+      if (!res.ok) {
+        out.innerHTML = `<span style="color:#ff4d6d">❌ Country not found. Try: Ghana, Japan, Brazil, France…</span>`;
+        return;
+      }
+      const data    = await res.json();
+      const country = data[0];
+      out.style.padding = '0';
+      out.style.fontFamily = 'Inter, sans-serif';
+      out.innerHTML = `
+        <div style="display:flex;align-items:center;gap:18px;padding:20px 20px 16px">
+          <img src="${country.flags.svg}" style="width:80px;height:54px;object-fit:cover;border-radius:8px;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,.4)"/>
+          <div>
+            <div style="font-size:1.2rem;font-weight:800">${country.name.common}</div>
+            <div style="font-size:.78rem;color:var(--muted)">${country.name.official}</div>
+          </div>
+        </div>
+        <div style="padding:0 20px 20px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:.83rem">📍 Capital: <b style="color:var(--accent2)">${country.capital?.[0] || 'N/A'}</b></div>
+          <div style="font-size:.83rem">👥 Population: <b style="color:var(--yellow)">${country.population.toLocaleString()}</b></div>
+          <div style="font-size:.83rem">🌍 Region: <b style="color:var(--text)">${country.region}</b></div>
+          <div style="font-size:.83rem">🗣 Languages: <b style="color:var(--green)">${country.languages ? Object.values(country.languages).join(', ') : 'N/A'}</b></div>
+        </div>
+      `;
+    } catch(e) {
+      out.innerHTML = `<span style="color:#ff4d6d">Error: ${e.message}</span>`;
+    }
+  }
+</script>
+</body>
+</html>
